@@ -2,7 +2,7 @@ package com.voltaic.yeelight.detector.extractor;
 
 import com.voltaic.yeelight.lamp.Lamp;
 import com.voltaic.yeelight.lamp.Model;
-import com.voltaic.yeelight.lamp.Operation;
+import com.voltaic.yeelight.lamp.Method;
 import com.voltaic.yeelight.lamp.color.Color;
 import com.voltaic.yeelight.ssdp.Response;
 import lombok.AllArgsConstructor;
@@ -63,11 +63,11 @@ public class LampExtractor {
     return new ColorExtractor(this.getResponse()).extract();
   }
 
-  private Set<Operation> extractOperations() {
+  private Set<Method> extractOperations() {
     final String support = this.getResponse().getHeader("support");
     final String[] operations = support.split(" ");
 
-    return Operation.forNames(operations);
+    return Method.forNames(operations);
   }
 
   private String firmwareVersion() {

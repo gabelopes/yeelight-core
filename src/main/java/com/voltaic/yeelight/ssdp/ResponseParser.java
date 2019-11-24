@@ -5,8 +5,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +21,7 @@ class ResponseParser {
   public Response parse() {
     try {
       final Response response = this.parseResponseLine();
-      final Map<String, String> headers = this.parseHeaders();
+      final List<Header> headers = this.parseHeaders();
 
       response.setHeaders(headers);
 
@@ -43,15 +43,16 @@ class ResponseParser {
     return new Response(httpVersion, statusCode);
   }
 
-  private Map<String, String> parseHeaders() {
-    final Map<String, String> headers = new HashMap<>();
+  private List<Header> parseHeaders() {
+    final List<Header> headers = new LinkedList<>();
     final Matcher matcher = HEADER_PATTERN.matcher(this.getResponseText());
 
     while (matcher.find()) {
       final String name = matcher.group("name");
       final String value = matcher.group("value");
+      final Header header = new Header(name, value);
 
-      headers.put(name, value);
+      headers.add(header);
     }
 
     return headers;

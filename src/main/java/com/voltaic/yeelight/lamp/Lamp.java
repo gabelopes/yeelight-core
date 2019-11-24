@@ -12,8 +12,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Lamp {
   private int id;
   private URI location;
@@ -22,14 +22,14 @@ public class Lamp {
   private boolean powered;
   private short brightness;
   private Color color;
-  private Set<Operation> operations;
+  private Set<Method> methods;
   private String firmwareVersion;
 
   @Override
   public boolean equals(Object object) {
     if (this == object) { return true; }
 
-    if (object == null || getClass() != object.getClass()) { return false; }
+    if (object == null || this.getClass() != object.getClass()) { return false; }
 
     return this.getId() == ((Lamp) object).id;
   }

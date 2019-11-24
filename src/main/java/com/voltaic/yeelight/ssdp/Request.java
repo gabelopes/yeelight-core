@@ -8,8 +8,6 @@ import java.net.DatagramPacket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 @Getter
@@ -22,7 +20,7 @@ public class Request extends Message {
     this.method = method;
   }
 
-  public Request(String method, String httpVersion, Map<String, String> headers) {
+  public Request(String method, String httpVersion, List<Header> headers) {
     super(httpVersion, headers);
     this.method = method;
   }
@@ -31,13 +29,10 @@ public class Request extends Message {
     return this.getMethod() + " * HTTP/" + this.getHttpVersion();
   }
 
-  private String inlineHeader(Entry<String, String> entry) {
-    return entry.getKey() + ": " + entry.getValue();
-  }
-
-  private List<String> inlineHeaders() {
-    return this.getHeaders().entrySet().stream()
-      .map(this::inlineHeader)
+  private List<String> headersToString() {
+    return this.getHeaders()
+      .stream()
+      .map(Header::toString)
       .collect(Collectors.toList());
   }
 
@@ -49,7 +44,7 @@ public class Request extends Message {
     final List<String> lines = new ArrayList<>();
 
     lines.add(this.getRequest());
-    lines.addAll(this.inlineHeaders());
+    lines.addAll(this.headersToString());
 
     final String message = String.join(lineSeparator, lines);
     final byte[] messageBuffer = message.getBytes(StandardCharsets.US_ASCII);

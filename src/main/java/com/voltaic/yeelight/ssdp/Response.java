@@ -1,9 +1,11 @@
 package com.voltaic.yeelight.ssdp;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.net.DatagramPacket;
-import java.util.Map;
+import java.util.List;
 
 @Getter
 @Setter(AccessLevel.PRIVATE)
@@ -15,7 +17,7 @@ public class Response extends Message {
     this.status = status;
   }
 
-  public Response(String httpVersion, int status, Map<String, String> headers) {
+  public Response(String httpVersion, int status, List<Header> headers) {
     super(httpVersion, headers);
     this.status = status;
   }

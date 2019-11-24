@@ -1,6 +1,7 @@
 package com.voltaic.yeelight.lamp;
 
 import com.voltaic.yeelight.Enumerator;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -9,7 +10,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Getter
-public enum Operation {
+@AllArgsConstructor
+public enum Method {
   GET_PROPERTY("get_prop"),
   SET_TEMPERATURE("set_ct_abx"),
   SET_RGB("set_rgb"),
@@ -37,17 +39,13 @@ public enum Operation {
 
   private String name;
 
-  Operation(String name) {
-   this.name = name;
+  public static Method forName(String name) {
+    return Enumerator.find(Method.class, method -> Objects.equals(method.getName(), name));
   }
 
-  public static Operation forName(String name) {
-    return Enumerator.find(Operation.class, operation -> Objects.equals(operation.getName(), name));
-  }
-
-  public static Set<Operation> forNames(String... names) {
+  public static Set<Method> forNames(String... names) {
     return Stream.of(names)
-      .map(Operation::forName)
+      .map(Method::forName)
       .collect(Collectors.toUnmodifiableSet());
   }
 }
