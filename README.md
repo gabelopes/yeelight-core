@@ -1,2 +1,2 @@
-# yeelight-java
-A Java library for discovering and controlling Yeelight Lamps
+# yeelight-core
+Core source for yeelight-java project.
