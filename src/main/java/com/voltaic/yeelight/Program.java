@@ -1,16 +1,15 @@
 package com.voltaic.yeelight;
 
-import com.jsoniter.output.JsonStream;
-import com.voltaic.yeelight.detector.LampDetector;
-import com.voltaic.yeelight.lamp.Lamp;
+import com.voltaic.yeelight.core.method.Method;
 
-import java.util.Set;
+import java.util.stream.Stream;
 
 public class Program {
   public static void main(String[] args) {
-    final Set<Lamp> lamps = LampDetector.detect();
-    final String lampsJson = JsonStream.serialize(lamps);
+    final var setHSVDescription = Method.SET_HSV.describe();
 
-    System.out.println(lampsJson);
+    Stream.of(Method.values())
+      .map(Method::describe)
+      .forEach(System.out::println);
   }
 }
